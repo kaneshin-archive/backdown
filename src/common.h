@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2011, Vicent Marti
  * Copyright (c) 2015, Shintaro Kaneko
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,30 +20,17 @@
  * THE SOFTWARE.
  */
 
-#ifndef STACK_H__
-#define STACK_H__
+#ifndef COMMON_H__
+#define COMMON_H__
 
-#include <stdlib.h>
-
-#include "common.h"
-
-EXTERN_C_BEGIN
-
-struct stack {
-	void **item;
-	size_t size;
-	size_t asize;
-};
-
-void stack_free(struct stack *);
-int stack_grow(struct stack *, size_t);
-int stack_init(struct stack *, size_t);
-
-int stack_push(struct stack *, void *);
-
-void *stack_pop(struct stack *);
-void *stack_top(struct stack *);
-
-EXTERN_C_END
+#if !defined(EXTERN_C_BEGIN)
+# if defined(__cplusplus)
+#  define EXTERN_C_BEGIN extern "C" {
+#  define EXTERN_C_END   }
+# else
+#  define EXTERN_C_BEGIN
+#  define EXTERN_C_END
+# endif
+#endif
 
 #endif

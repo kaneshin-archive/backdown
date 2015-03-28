@@ -21,30 +21,59 @@
  * THE SOFTWARE.
  */
 
-#ifndef STACK_H__
-#define STACK_H__
-
+#include <errno.h>
+#include <getopt.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "common.h"
+#include "markdown.h"
+#include "html.h"
+#include "buffer.h"
 
-EXTERN_C_BEGIN
+#define READ_UNIT 1024
+#define OUTPUT_UNIT 64
 
-struct stack {
-	void **item;
-	size_t size;
-	size_t asize;
-};
+int
+main(int argc, char **argv)
+{
+	struct buf *ib, *ob;
+	size_t ret;
+	FILE *in = stdin;
 
-void stack_free(struct stack *);
-int stack_grow(struct stack *, size_t);
-int stack_init(struct stack *, size_t);
+	/* opening the file if given from the command line */
+	if (argc > 1) {
+		in = fopen(argv[1], "r");
+		if (!in) {
+			fprintf(stderr, "Unable to open input file \"%s\": %s\n", argv[0], strerror(errno));
+			return 1;
+		}
+	}
 
-int stack_push(struct stack *, void *);
+	/* reading everything */
+	ib = bufnew(READ_UNIT);
+	bufgrow(ib, READ_UNIT);
+	while ((ret = fread(ib->data + ib->size, 1, ib->asize - ib->size, in)) > 0) {
+		ib->size += ret;
+		bufgrow(ib, ib->size + READ_UNIT);
+	}
 
-void *stack_pop(struct stack *);
-void *stack_top(struct stack *);
+	if (in != stdin)
+		fclose(in);
 
-EXTERN_C_END
+	/* performing markdown parsing */
+	ob = bufnew(OUTPUT_UNIT);
 
-#endif
+	sdhtml_smartypants(ob, ib->data, ib->size);
+
+	/* writing the result to stdout */
+	(void)fwrite(ob->data, 1, ob->size, stdout);
+
+	/* cleanup */
+	bufrelease(ib);
+	bufrelease(ob);
+
+	return 0;
+}
+
+/* vim: set filetype=c: */

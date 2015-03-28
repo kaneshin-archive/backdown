@@ -1,10 +1,29 @@
-Contributing to Sundown
-=======================
+# Contributing to backdown
 
-Do not.
+`Backdown` has a backlog of [pull requests](https://help.github.com/articles/using-pull-requests), but contributions are still very
+much welcome. You can help with patch review, submitting bug reports,
+or adding new functionality. There is no formal style guide, but
+please conform to the style of existing code and general Go formatting
+conventions when submitting patches.
 
-Unfortunately, Sundown is currently frozen as we're working with the Reddit, StackOverflow and Meteor developers to design a formal Markdown standard and parser that will supersede Sundown in all these websites (and in GitHub, of course). Our goal is to deprecate Sundown altogether before the end of the year.
+* [fork a repo](https://help.github.com/articles/fork-a-repo)
+* [creating a pull request ](https://help.github.com/articles/creating-a-pull-request)
 
-The new parser will be smaller, faster, safer and most importantly, more consistent.
 
-Please stay tuned.
+## Patch review
+
+Help review existing open [pull requests](https://help.github.com/articles/using-pull-requests) by commenting on the code or
+proposed functionality.
+
+## Bug reports
+
+We appreciate any bug reports.
+
+## New functionality
+
+There are a number of pending patches for new functionality, so
+additional feature patches will take a while to merge. Still, patches
+are generally reviewed based on usefulness and complexity in addition
+to time-in-queue, so if you have a knockout idea, take a shot. Feel
+free to open an issue discussion your proposed patch beforehand.
+
