@@ -2,6 +2,7 @@
 backdown
 libbackdown.so*
 smartypants
+xcode
 
 # Object files
 *.o
