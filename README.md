@@ -1,4 +1,6 @@
-﻿# Backdown
+﻿[![Build Status](https://travis-ci.org/kaneshin/backdown.svg?branch=master)](https://travis-ci.org/kaneshin/backdown)
+
+# Backdown
 
 `Backdown` is a Markdown parser based on the original code of the
 [vmg/sundown](https://github.com/vmg/sundown) by Vicent Marti.
