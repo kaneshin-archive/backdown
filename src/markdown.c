@@ -1715,10 +1715,8 @@ parse_listitem(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t s
 			if (!sublist)
 				sublist = work->size;
 		}
-		/* joining only indented stuff after empty lines;
-		 * note that now we only require 1 space of indentation
-		 * to continue a list */
-		else if (in_empty && pre == 0) {
+		/* joining only indented stuff after empty lines */
+		else if (in_empty && i < 4 && data[beg] != '\t') {
 			*flags |= MKD_LI_END;
 			break;
 		}
@@ -2524,6 +2522,9 @@ sd_markdown_render(struct buf *ob, const uint8_t *document, size_t doc_size, str
 
 	if (md->cb.doc_footer)
 		md->cb.doc_footer(ob, md->opaque);
+
+	/* Null-terminate the buffer */
+	bufcstr(ob);
 
 	/* clean-up */
 	bufrelease(text);
