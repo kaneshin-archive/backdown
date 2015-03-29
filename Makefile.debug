@@ -1,5 +1,3 @@
-#!/bin/bash
-#
 # Copyright (c) 2015, Shintaro Kaneko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,31 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-cd $(dirname "${0}")
+configuration := debug
 
-backdown=./../backdown
-testsuite=$(find ./markdown-testsuite -name "*.md")
-
-echo "${testsuite}" | while read LINE
-do
-  result=$(${backdown} "${LINE}")
-  expected=$(cat "${LINE%.*}.out")
-  if [[ $result = $expected ]]; then
-    echo -n "."
-  else
-    rf=result
-    ef=expected
-    echo "${result}" > "${rf}"
-    echo "${expected}" > "${ef}"
-    res=$(diff -u "${rf}" "${ef}")
-    ret=$?
-    rm -rf "${rf}" "${ef}"
-    if [[ ! ${ret} = 0 ]] ; then
-      echo ""
-      echo "Failed: " "${LINE}"
-      echo "${res}"
-      # exit 1
-    fi
-  fi
-done
-
+include Makefile

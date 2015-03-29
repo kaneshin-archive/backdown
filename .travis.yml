@@ -3,6 +3,4 @@ language: c
 compiler:
   - gcc
 
-before_install:
-
-script: make test
+script: make -f Makefile.test test

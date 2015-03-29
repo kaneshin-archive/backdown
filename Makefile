@@ -31,9 +31,16 @@ SRCS=\
 	$(SRCDIR)/markdown.c \
 	$(SRCDIR)/stack.c
 
-CFLAGS=-c -g -O3 -fPIC -Wall -Werror -Wsign-compare -I$(SRCDIR)
-LDFLAGS=-g -O3 -Wall -Werror
+AR=ar
 CC=gcc
+ARFLAGS=rcs
+CFLAGS=-c -g -O3 -fPIC -Wall -Werror -Wsign-compare -I$(SRCDIR)
+ifeq ($(configuration),debug)
+	CFLAGS += -DDEBUG
+else ifeq ($(configuration),test)
+	CFLAGS += -DTEST
+endif
+LDFLAGS=-g -O3 -Wall -Werror
 
 OBJS = $(subst .c,.o,$(SRCS))
 
@@ -54,7 +61,7 @@ libbackdown.so.1: $(OBJS)
 # Static library
 
 libbackdown.a: $(OBJS)
-	ar rcs $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 # Executables
 
@@ -72,7 +79,7 @@ clean:
 
 # Test
 
-test: backdown
+test: clean backdown
 	./t/markdown-testsuite.sh
 
 # Perfect hashing
