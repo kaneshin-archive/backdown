@@ -43,7 +43,6 @@ do
       echo ""
       echo "Failed: " "${LINE}"
       echo "${res}"
-      # exit 1
     fi
   fi
 done
