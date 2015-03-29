@@ -70,6 +70,11 @@ smartypants: smartypants.o $(OBJS)
 clean:
 	rm -f *.o $(SRCDIR)/*.o $(TARGET) libbackdown.*
 
+# Test
+
+test: backdown
+	./t/markdown-testsuite.sh
+
 # Perfect hashing
 
 html_blocks: src/html_blocks.h
