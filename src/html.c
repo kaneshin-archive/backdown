@@ -215,7 +215,7 @@ static int
 rndr_linebreak(struct buf *ob, void *opaque)
 {
 	struct html_renderopt *options = opaque;
-	bufputs(ob, USE_XHTML(options) ? "<br/>\n" : "<br>\n");
+	bufputs(ob, USE_XHTML(options) ? "<br />\n" : "<br>\n");
 	return 1;
 }
 
@@ -363,7 +363,7 @@ rndr_hrule(struct buf *ob, void *opaque)
 {
 	struct html_renderopt *options = opaque;
 	if (ob->size) bufputc(ob, '\n');
-	bufputs(ob, USE_XHTML(options) ? "<hr/>\n" : "<hr>\n");
+	bufputs(ob, USE_XHTML(options) ? "<hr />\n" : "<hr>\n");
 }
 
 static int
@@ -383,7 +383,7 @@ rndr_image(struct buf *ob, const struct buf *link, const struct buf *title, cons
 		BUFPUTSL(ob, "\" title=\"");
 		escape_html(ob, title->data, title->size); }
 
-	bufputs(ob, USE_XHTML(options) ? "\"/>" : "\">");
+	bufputs(ob, USE_XHTML(options) ? "\" />" : "\">");
 	return 1;
 }
 
