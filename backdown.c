@@ -49,7 +49,8 @@ bd_render(struct buf *ob, const struct buf *ib)
 	struct html_renderopt options;
 	struct sd_markdown *markdown;
 
-	sdhtml_renderer(&callbacks, &options, 0);
+	unsigned int flags = HTML_USE_XHTML;
+	sdhtml_renderer(&callbacks, &options, flags);
 	markdown = sd_markdown_new(0, 16, &callbacks, &options);
 	sd_markdown_render(ob, ib->data, ib->size, markdown);
 	sd_markdown_free(markdown);
