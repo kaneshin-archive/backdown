@@ -8,10 +8,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,13 +37,13 @@ CC=gcc
 
 OBJS = $(subst .c,.o,$(SRCS))
 
-TARGET=backdown smartypants libbackdown.so html_blocks
+TARGET=backdown smartypants libbackdown.so libbackdown.a # html_blocks
 
 .PHONY: all clean
 
 all: $(TARGET)
 
-# libraries
+# Dynamic library
 
 libbackdown.so: libbackdown.so.1
 	ln -f -s $^ $@
@@ -51,7 +51,13 @@ libbackdown.so: libbackdown.so.1
 libbackdown.so.1: $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ -shared $^
 
-# executables
+# Static library
+
+libbackdown.a: $(OBJS)
+	ar rcs $@ $^
+
+# Executables
+
 backdown: backdown.o $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^
 
@@ -59,12 +65,13 @@ smartypants: smartypants.o $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^
 
 .c.o:
-	$(CC) $(CFLAGS) -I$(SRCDIR) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f *.o $(SRCDIR)/*.o $(TARGET) libbackdown*
+	rm -f *.o $(SRCDIR)/*.o $(TARGET) libbackdown.*
 
-# perfect hashing
+# Perfect hashing
+
 html_blocks: src/html_blocks.h
 
 src/html_blocks.h: html_block_names.txt

@@ -5,6 +5,10 @@
 
 ## Installation
 
+- Dynamic Library
+- Static Library
+- Executable Files
+
 Just type `make`.
 
 ## Features
