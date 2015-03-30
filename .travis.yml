@@ -3,4 +3,12 @@ language: c
 compiler:
   - gcc
 
-script: make -f Makefile.test test
+before_install:
+  - sudo easy_install cpp-coveralls
+
+script:
+  - make -f Makefile.test test && make coverage
+
+after_success:
+  - coveralls --exclude t --gcov-options '\-lp'
+

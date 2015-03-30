@@ -38,9 +38,13 @@ CFLAGS=-c -g -O3 -fPIC -Wall -Werror -Wsign-compare -I$(SRCDIR)
 ifeq ($(configuration),debug)
 	CFLAGS += -DDEBUG
 else ifeq ($(configuration),test)
-	CFLAGS += -DTEST
+	CFLAGS += -DTEST -fprofile-arcs -ftest-coverage
 endif
 LDFLAGS=-g -O3 -Wall -Werror
+ifeq ($(configuration),debug)
+else ifeq ($(configuration),test)
+	LDFLAGS += -lgcov -coverage
+endif
 
 OBJS = $(subst .c,.o,$(SRCS))
 
@@ -75,11 +79,18 @@ smartypants: smartypants.o $(OBJS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f *.o $(SRCDIR)/*.o $(TARGET) libbackdown.*
+	-rm -f *.o $(SRCDIR)/*.o $(TARGET) libbackdown.*
+	-rm -f *.gcov *.gcda *.gcno
+
+coverage:
+	gcov **/*.gcda
+
+coveralls:
+	coveralls
 
 # Test
 
-test: clean backdown
+test: backdown
 	./t/markdown-testsuite.sh --noexit
 
 # Perfect hashing

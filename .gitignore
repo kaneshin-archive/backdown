@@ -36,3 +36,6 @@ xcode
 
 # Debug files
 *.dSYM/
+*.gcov
+*.gcda
+*.gcno
