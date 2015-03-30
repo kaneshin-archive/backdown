@@ -4,6 +4,8 @@
 
 # Backdown
 
+[![Join the chat at https://gitter.im/backdown/backdown](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/backdown/backdown?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 `Backdown` is a Markdown parser based on the original code of the
 [vmg/sundown](https://github.com/vmg/sundown) by Vicent Marti.
 
