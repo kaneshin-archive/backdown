@@ -82,7 +82,7 @@ features:
 
 ## License
 
-[The MIT License (MIT)](http://kaneshin.mit-license.org/)
+[The MIT License (MIT)](https://github.com/backdown/backdown/blob/master/LICENSE)
 
 ## Contributor
 
