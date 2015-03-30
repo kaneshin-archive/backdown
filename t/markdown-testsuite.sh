@@ -84,7 +84,9 @@ do
     echo "${result}" > "${restmp}"
     echo "${expected}" > "${exptmp}"
     res=$(diff -u "${restmp}" "${exptmp}")
-    if [[ ! ${?} = 0 ]]; then
+    if [[ ${?} = 0 ]]; then
+      echo -n "."
+    else
       if [[ ${verbose} = 1 ]]; then
         echo ""
         echo "Failed: " "${LINE}"
@@ -92,7 +94,7 @@ do
       else
         echo -n "F"
       fi
-      if [[ ! ${noexit} == 1 ]]; then
+      if [[ ! ${noexit} = 1 ]]; then
         exit 1
       fi
     fi
