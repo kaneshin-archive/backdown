@@ -27,6 +27,16 @@ dir=$(dirname ${0})
 
 backdown="${dir}/../backdown"
 testsuite=$(find "${dir}"/markdown-testsuite -name "*.md")
+ignorelist=()
+case ${OSTYPE} in
+  darwin* )
+    ;;
+  linux* )
+    ignorelist+=("EOL-CR+LF.md")
+    ignorelist+=("EOL-CR.md")
+    ;;
+esac
+
 tmpdir="/tmp/backdown"
 if [[ ! -d "${tmpdir}" ]]; then
   mkdir -p "${tmpdir}"
@@ -53,6 +63,17 @@ done
 
 echo "${testsuite}" | while read LINE
 do
+  skip=0
+  name=$(basename ${LINE})
+  for ignore in ${ignorelist[@]}
+  do
+    if [[ "${ignore}" = "${name}" ]]; then
+      skip=1
+    fi
+  done
+  if [[ ${skip} = 1 ]]; then
+    continue
+  fi
   result=$(${backdown} "${LINE}")
   expected=$(cat "${LINE%.*}.out")
   if [[ "${result}" = "${expected}" ]]; then
