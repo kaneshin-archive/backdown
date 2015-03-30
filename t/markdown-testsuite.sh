@@ -20,30 +20,60 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-cd $(dirname "${0}")
+PROGNAME=$(basename ${0})
+VERSION="0.1"
 
-backdown=./../backdown
-testsuite=$(find ./markdown-testsuite -name "*.md")
+dir=$(dirname ${0})
+
+backdown="${dir}/../backdown"
+testsuite=$(find "${dir}"/markdown-testsuite -name "*.md")
+tmpdir="/tmp/backdown"
+if [[ ! -d "${tmpdir}" ]]; then
+  mkdir -p "${tmpdir}"
+fi
+
+verbose=0
+noexit=0
+for opt in ${*}
+do
+  case ${opt} in
+    '--verbose')
+      verbose=1
+      ;;
+    '-ne'|'--noexit')
+      noexit=1
+      ;;
+    '--version')
+      echo $VERSION
+      exit 0
+      ;;
+  esac
+  shift
+done
 
 echo "${testsuite}" | while read LINE
 do
   result=$(${backdown} "${LINE}")
   expected=$(cat "${LINE%.*}.out")
-  if [[ $result = $expected ]]; then
+  if [[ "${result}" = "${expected}" ]]; then
     echo -n "."
   else
-    rf=result
-    ef=expected
-    echo "${result}" > "${rf}"
-    echo "${expected}" > "${ef}"
-    res=$(diff -u "${rf}" "${ef}")
-    ret=$?
-    rm -rf "${rf}" "${ef}"
-    if [[ ! ${ret} = 0 ]] ; then
-      echo ""
-      echo "Failed: " "${LINE}"
-      echo "${res}"
-      # exit 1
+    restmp="${tmpdir}/${$}.result"
+    exptmp="${tmpdir}/${$}.expected"
+    echo "${result}" > "${restmp}"
+    echo "${expected}" > "${exptmp}"
+    res=$(diff -u "${restmp}" "${exptmp}")
+    if [[ ! ${?} = 0 ]]; then
+      if [[ ${verbose} = 1 ]]; then
+        echo ""
+        echo "Failed: " "${LINE}"
+        echo "${res}"
+      else
+        echo -n "F"
+      fi
+      if [[ ! ${noexit} == 1 ]]; then
+        exit 1
+      fi
     fi
   fi
 done

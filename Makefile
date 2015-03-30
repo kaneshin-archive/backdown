@@ -80,7 +80,7 @@ clean:
 # Test
 
 test: clean backdown
-	./t/markdown-testsuite.sh
+	./t/markdown-testsuite.sh --noexit
 
 # Perfect hashing
 
