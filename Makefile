@@ -22,8 +22,9 @@
 
 SRCDIR=src
 SRCS=\
-	$(SRCDIR)/houdini_href_e.c \
-	$(SRCDIR)/houdini_html_e.c \
+	$(SRCDIR)/escape.c \
+	$(SRCDIR)/escape_href.c \
+	$(SRCDIR)/escape_html.c \
 	$(SRCDIR)/html.c \
 	$(SRCDIR)/html_smartypants.c \
 	$(SRCDIR)/autolink.c \
@@ -91,7 +92,7 @@ coveralls:
 # Test
 
 test: backdown
-	./t/markdown-testsuite.sh --noexit
+	./t/markdown-testsuite.sh
 
 # Perfect hashing
 

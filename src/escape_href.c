@@ -21,24 +21,18 @@
  * THE SOFTWARE.
  */
 
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-
-#include "houdini.h"
-
-#define ESCAPE_GROW_FACTOR(x) (((x) * 12) / 10)
+#include "escape.h"
 
 /*
  * The following characters will not be escaped:
  *
- *		-_.+!*'(),%#@?=;:/,+&$ alphanum
+ *              -_.+!*'(),%#@?=;:/,+&$ alphanum
  *
  * Note that this character set is the addition of:
  *
- *	- The characters which are safe to be in an URL
- *	- The characters which are *not* safe to be in
- *	an URL because they are RESERVED characters.
+ *      - The characters which are safe to be in an URL
+ *      - The characters which are *not* safe to be in
+ *      an URL because they are RESERVED characters.
  *
  * We asume (lazily) that any RESERVED char that
  * appears inside an URL is actually meant to
@@ -54,33 +48,33 @@
  * All other characters will be escaped to %XX.
  *
  */
-static const char HREF_SAFE[] = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
-	0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+static const uint8_t HREF_SAFE[] = {
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
+	0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
 void
-houdini_escape_href(struct buf *ob, const uint8_t *src, size_t size)
+bd_escape_href(bd_buf *ob, const uint8_t *src, size_t size)
 {
 	static const char hex_chars[] = "0123456789ABCDEF";
 	size_t  i = 0, org;
 	char hex_str[3];
 
-	bufgrow(ob, ESCAPE_GROW_FACTOR(size));
+	bufgrow(ob, BD_ESCAPE_FACTOR(size));
 	hex_str[0] = '%';
 
 	while (i < size) {
@@ -96,31 +90,17 @@ houdini_escape_href(struct buf *ob, const uint8_t *src, size_t size)
 			break;
 
 		switch (src[i]) {
-		/* amp appears all the time in URLs, but needs
-		 * HTML-entity escaping to be inside an href */
 		case '&': 
-			BUFPUTSL(ob, "&amp;");
-			break;
-
-		/* the single quote is a valid URL character
-		 * according to the standard; it needs HTML
-		 * entity escaping too */
+			/* amp appears all the time in URLs, but needs
+			 * HTML-entity escaping to be inside an href */
 		case '\'':
-			BUFPUTSL(ob, "&#x27;");
+			/* the single quote is a valid URL character
+			 * according to the standard; it needs HTML
+			 * entity escaping too */
+			bufputs(ob, BD_HTML_ESCAPES[BD_HTML_ESCAPE_TABLE[src[i]]]);
 			break;
-		
-		/* the space can be escaped to %20 or a plus
-		 * sign. we're going with the generic escape
-		 * for now. the plus thing is more commonly seen
-		 * when building GET strings */
-#if 0
-		case ' ':
-			bufputc(ob, '+');
-			break;
-#endif
-
-		/* every other character goes with a %XX escaping */
 		default:
+			/* every other character goes with a %XX escaping */
 			hex_str[1] = hex_chars[(src[i] >> 4) & 0xF];
 			hex_str[2] = hex_chars[src[i] & 0xF];
 			bufput(ob, hex_str, 3);

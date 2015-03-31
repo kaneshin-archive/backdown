@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include "houdini.h"
+#include "escape.h"
 
 #define USE_XHTML(opt) (opt->flags & HTML_USE_XHTML)
 
@@ -69,12 +69,12 @@ sdhtml_is_tag(const uint8_t *tag_data, size_t tag_size, const char *tagname)
 
 static inline void escape_html(struct buf *ob, const uint8_t *source, size_t length)
 {
-	houdini_escape_html0(ob, source, length, 0);
+	bd_escape_html_insecure(ob, source, length);
 }
 
 static inline void escape_href(struct buf *ob, const uint8_t *source, size_t length)
 {
-	houdini_escape_href(ob, source, length);
+	bd_escape_href(ob, source, length);
 }
 
 /********************

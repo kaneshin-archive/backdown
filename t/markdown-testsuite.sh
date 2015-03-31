@@ -34,6 +34,8 @@ case ${OSTYPE} in
   linux* )
     ignorelist+=("EOL-CR+LF.md")
     ignorelist+=("EOL-CR.md")
+    ignorelist+=("list-code-1-space.md")
+    ignorelist+=("ordered-list-inner-par-list.md")
     ;;
 esac
 

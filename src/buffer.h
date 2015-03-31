@@ -44,12 +44,12 @@ typedef enum {
 } buferror_t;
 
 /* struct buf: character array buffer */
-struct buf {
+typedef struct buf {
 	uint8_t *data;		/* actual character data */
 	size_t size;	/* size of the string */
 	size_t asize;	/* allocated size (0 = volatile buffer) */
 	size_t unit;	/* reallocation unit size (0 = read-only buffer) */
-};
+} bd_buf;
 
 /* CONST_BUF: global buffer from a string litteral */
 #define BUF_STATIC(string) \
