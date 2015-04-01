@@ -29,6 +29,9 @@
 
 EXTERN_C_BEGIN
 
+#define BD_ESCAPE_FACTOR(x) (((x) * 12) / 10)
+#define BD_UNESCAPE_FACTOR(x) (x)
+
 /**
  * According to the OWASP rules:
  */
@@ -43,9 +46,6 @@ typedef enum
 	BD_ESCAPE_SECURE,
 	BD_ESCAPE_INSECURE,
 } bd_escape_mode;
-
-#define BD_ESCAPE_FACTOR(x) (((x) * 12) / 10)
-#define BD_UNESCAPE_FACTOR(x) (x)
 
 /*
  * Escape href

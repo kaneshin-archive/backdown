@@ -48,7 +48,7 @@
  * All other characters will be escaped to %XX.
  *
  */
-static const uint8_t HREF_SAFE[] = {
+static const uint8_t HREF_ESCAPE_TABLE[] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -77,9 +77,9 @@ bd_escape_href(bd_buf *ob, const uint8_t *src, size_t size)
 	bufgrow(ob, BD_ESCAPE_FACTOR(size));
 	hex_str[0] = '%';
 
-	while (i < size) {
-		org = i;
-		while (i < size && HREF_SAFE[src[i]] != 0)
+	for (org = i; i < size; org = ++i)
+	{
+		while (i < size && HREF_ESCAPE_TABLE[src[i]] != 0)
 			i++;
 
 		if (i > org)
@@ -105,7 +105,5 @@ bd_escape_href(bd_buf *ob, const uint8_t *src, size_t size)
 			hex_str[2] = hex_chars[src[i] & 0xF];
 			bufput(ob, hex_str, 3);
 		}
-
-		i++;
 	}
 }

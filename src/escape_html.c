@@ -26,14 +26,13 @@
 void
 bd_escape_html(bd_buf *ob, const uint8_t *src, size_t size, bd_escape_mode mode)
 {
-	size_t i = 0, org, esc = 0;
+	size_t i = 0, org;
 
 	bufgrow(ob, BD_ESCAPE_FACTOR(size));
 
-	while (i < size)
+	for (org = i; i < size; org = ++i)
 	{
-		org = i;
-		while (i < size && (esc = BD_HTML_ESCAPE_TABLE[src[i]]) == 0)
+		while (i < size && BD_HTML_ESCAPE_TABLE[src[i]] == 0)
 			i++;
 
 		if (i > org)
@@ -47,9 +46,7 @@ bd_escape_html(bd_buf *ob, const uint8_t *src, size_t size, bd_escape_mode mode)
 		if (src[i] == '/' && mode == BD_ESCAPE_INSECURE)
 			bufputc(ob, '/');
 		else
-			bufputs(ob, BD_HTML_ESCAPES[esc]);
-
-		i++;
+			bufputs(ob, BD_HTML_ESCAPES[BD_HTML_ESCAPE_TABLE[src[i]]]);
 	}
 }
 
