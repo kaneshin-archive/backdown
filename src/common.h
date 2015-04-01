@@ -23,6 +23,8 @@
 #ifndef COMMON_H__
 #define COMMON_H__
 
+#include <stdbool.h>
+
 #if !defined(EXTERN_C_BEGIN)
 # if defined(__cplusplus)
 #  define EXTERN_C_BEGIN extern "C" {

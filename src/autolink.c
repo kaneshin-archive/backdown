@@ -21,34 +21,31 @@
  * THE SOFTWARE.
  */
 
+#include "autolink.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
 
-#include "buffer.h"
-#include "autolink.h"
-
 #if defined(_WIN32)
-#define strncasecmp	_strnicmp
+# define strncasecmp _strnicmp
 #endif
 
 int
-sd_autolink_issafe(const uint8_t *link, size_t link_len)
+bd_autolink_issafe(const uint8_t *data, size_t size)
 {
 	static const size_t valid_uris_count = 6;
 	static const char *valid_uris[] = {
 		"#", "/", "http://", "https://", "ftp://", "mailto:"
 	};
-
-	size_t i;
+	size_t i, len;
 
 	for (i = 0; i < valid_uris_count; ++i) {
-		size_t len = strlen(valid_uris[i]);
-
-		if (link_len > len &&
-			strncasecmp((char *)link, valid_uris[i], len) == 0 &&
-			isalnum(link[len]))
+		len = strlen(valid_uris[i]);
+		if (len < size &&
+			strncasecmp((char *)data, valid_uris[i], len) == 0 &&
+			isalnum(data[len]))
 			return 1;
 	}
 
@@ -166,13 +163,13 @@ check_domain(uint8_t *data, size_t size, int allow_short)
 }
 
 size_t
-sd_autolink__www(
+bd_autolink__www(
 	size_t *rewind_p,
-	struct buf *link,
+	bd_buf *link,
 	uint8_t *data,
 	size_t max_rewind,
 	size_t size,
-	unsigned int flags)
+	bd_autolink_flags flags)
 {
 	size_t link_end;
 
@@ -202,13 +199,13 @@ sd_autolink__www(
 }
 
 size_t
-sd_autolink__email(
+bd_autolink__email(
 	size_t *rewind_p,
-	struct buf *link,
+	bd_buf *link,
 	uint8_t *data,
 	size_t max_rewind,
 	size_t size,
-	unsigned int flags)
+	bd_autolink_flags flags)
 {
 	size_t link_end, rewind;
 	int nb = 0, np = 0;
@@ -257,13 +254,13 @@ sd_autolink__email(
 }
 
 size_t
-sd_autolink__url(
+bd_autolink__url(
 	size_t *rewind_p,
-	struct buf *link,
+	bd_buf *link,
 	uint8_t *data,
 	size_t max_rewind,
 	size_t size,
-	unsigned int flags)
+	bd_autolink_flags flags)
 {
 	size_t link_end, rewind = 0, domain_len;
 
@@ -273,7 +270,7 @@ sd_autolink__url(
 	while (rewind < max_rewind && isalpha(data[-rewind - 1]))
 		rewind++;
 
-	if (!sd_autolink_issafe(data - rewind, size + rewind))
+	if (!bd_autolink_issafe(data - rewind, size + rewind))
 		return 0;
 
 	link_end = strlen("://");
@@ -281,7 +278,7 @@ sd_autolink__url(
 	domain_len = check_domain(
 		data + link_end,
 		size - link_end,
-		flags & SD_AUTOLINK_SHORT_DOMAINS);
+		flags & BD_AUTOLINK_SHORT_DOMAINS);
 
 	if (domain_len == 0)
 		return 0;

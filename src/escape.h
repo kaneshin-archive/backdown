@@ -41,8 +41,7 @@ extern const char *BD_HTML_ESCAPES[];
 /**
  * Escape Mode
  */
-typedef enum
-{
+typedef enum {
 	BD_ESCAPE_SECURE,
 	BD_ESCAPE_INSECURE,
 } bd_escape_mode;
@@ -50,14 +49,14 @@ typedef enum
 /*
  * Escape href
  */
-extern void bd_escape_href(bd_buf *ob, const uint8_t *src, size_t size);
+void bd_escape_href(bd_buf *ob, const uint8_t *src, size_t size);
 
 /*
  * Escape html
  */
-extern void bd_escape_html(bd_buf *ob, const uint8_t *src, size_t size, bd_escape_mode mode);
-extern void bd_escape_html_secure(bd_buf *ob, const uint8_t *src, size_t size);
-extern void bd_escape_html_insecure(bd_buf *ob, const uint8_t *src, size_t size);
+void bd_escape_html(bd_buf *ob, const uint8_t *src, size_t size, bd_escape_mode mode);
+void bd_escape_html_secure(bd_buf *ob, const uint8_t *src, size_t size);
+void bd_escape_html_insecure(bd_buf *ob, const uint8_t *src, size_t size);
 
 EXTERN_C_END
 

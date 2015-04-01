@@ -21,32 +21,27 @@
  * THE SOFTWARE.
  */
 
-#ifndef AUTOLINK_H__
-#define AUTOLINK_H__
+#ifndef __BD_AUTOLINK_H__
+#define __BD_AUTOLINK_H__
 
 #include "common.h"
 #include "buffer.h"
 
 EXTERN_C_BEGIN
 
-enum {
-	SD_AUTOLINK_SHORT_DOMAINS = (1 << 0),
-};
+typedef enum {
+	BD_AUTOLINK_DEFAULT         = 0,
+	BD_AUTOLINK_SHORT_DOMAINS   = 1 << 0,
+} bd_autolink_flags;
 
-int
-sd_autolink_issafe(const uint8_t *link, size_t link_len);
+int bd_autolink_issafe(const uint8_t *data, size_t size);
 
-size_t
-sd_autolink__www(size_t *rewind_p, struct buf *link,
-	uint8_t *data, size_t offset, size_t size, unsigned int flags);
-
-size_t
-sd_autolink__email(size_t *rewind_p, struct buf *link,
-	uint8_t *data, size_t offset, size_t size, unsigned int flags);
-
-size_t
-sd_autolink__url(size_t *rewind_p, struct buf *link,
-	uint8_t *data, size_t offset, size_t size, unsigned int flags);
+size_t bd_autolink__www(size_t *rewind_p, bd_buf *link,
+	uint8_t *data, size_t offset, size_t size, bd_autolink_flags flags);
+size_t bd_autolink__email(size_t *rewind_p, bd_buf *link,
+	uint8_t *data, size_t offset, size_t size, bd_autolink_flags flags);
+size_t bd_autolink__url(size_t *rewind_p, bd_buf *link,
+	uint8_t *data, size_t offset, size_t size, bd_autolink_flags flags);
 
 EXTERN_C_END
 

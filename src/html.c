@@ -89,7 +89,7 @@ rndr_autolink(struct buf *ob, const struct buf *link, enum mkd_autolink type, vo
 		return 0;
 
 	if ((options->flags & HTML_SAFELINK) != 0 &&
-		!sd_autolink_issafe(link->data, link->size) &&
+		!bd_autolink_issafe(link->data, link->size) &&
 		type != MKDA_EMAIL)
 		return 0;
 
@@ -241,7 +241,7 @@ rndr_link(struct buf *ob, const struct buf *link, const struct buf *title, const
 {
 	struct html_renderopt *options = opaque;
 
-	if (link != NULL && (options->flags & HTML_SAFELINK) != 0 && !sd_autolink_issafe(link->data, link->size))
+	if (link != NULL && (options->flags & HTML_SAFELINK) != 0 && !bd_autolink_issafe(link->data, link->size))
 		return 0;
 
 	BUFPUTSL(ob, "<a href=\"");
