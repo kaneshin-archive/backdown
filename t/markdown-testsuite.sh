@@ -21,21 +21,31 @@
 # THE SOFTWARE.
 
 PROGNAME=$(basename ${0})
-VERSION="0.1"
+VERSION="1.0"
+
+COLOR_NONE="\033[0m"
+COLOR_RED="\033[0;31m"
 
 dir=$(dirname ${0})
+prjdir="${dir}/.."
 
-backdown="${dir}/../backdown"
+backdown="${prjdir}/backdown"
 testsuite=$(find "${dir}"/markdown-testsuite -name "*.md")
 ignorelist=()
 case ${OSTYPE} in
-  darwin* )
-    ;;
   linux* )
     ignorelist+=("EOL-CR+LF.md")
     ignorelist+=("EOL-CR.md")
     ignorelist+=("list-code-1-space.md")
     ignorelist+=("ordered-list-inner-par-list.md")
+    ;;
+  darwin* )
+    ignorelist+=("EOL-CR+LF.md")
+    ignorelist+=("EOL-CR.md")
+    ignorelist+=("list-code-1-space.md")
+    ignorelist+=("ordered-list-inner-par-list.md")
+    ;;
+  windows* )
     ;;
 esac
 
@@ -56,12 +66,28 @@ do
       noexit=1
       ;;
     '--version')
-      echo $VERSION
+      echo "${PROGNAME} ${VERSION}"
       exit 0
       ;;
   esac
   shift
 done
+
+success()
+{
+  echo -n "."
+}
+
+failure()
+{
+  echo -n -e ${COLOR_RED}"F"${COLOR_NONE}
+  if [[ ${verbose} = 1 ]]; then
+    echo ""
+    echo -n -e "${COLOR_RED}Failed: "
+    echo -e "${1}${COLOR_NONE}"
+    echo "${2}"
+  fi
+}
 
 echo "${testsuite}" | while read LINE
 do
@@ -79,7 +105,7 @@ do
   result=$(${backdown} "${LINE}")
   expected=$(cat "${LINE%.*}.out")
   if [[ "${result}" = "${expected}" ]]; then
-    echo -n "."
+    success
   else
     restmp="${tmpdir}/${$}.result"
     exptmp="${tmpdir}/${$}.expected"
@@ -87,19 +113,14 @@ do
     echo "${expected}" > "${exptmp}"
     res=$(diff -u "${restmp}" "${exptmp}")
     if [[ ${?} = 0 ]]; then
-      echo -n "."
+      success
     else
-      if [[ ${verbose} = 1 ]]; then
-        echo ""
-        echo "Failed: " "${LINE}"
-        echo "${res}"
-      else
-        echo -n "F"
-      fi
+      failure "${LINE}" "${res}"
       if [[ ! ${noexit} = 1 ]]; then
+        echo ""
         exit 1
       fi
     fi
   fi
 done
-
+echo ""
