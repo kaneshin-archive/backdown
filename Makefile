@@ -30,7 +30,8 @@ SRCS=\
 	$(SRCDIR)/autolink.c \
 	$(SRCDIR)/buffer.c \
 	$(SRCDIR)/markdown.c \
-	$(SRCDIR)/stack.c
+	$(SRCDIR)/stack.c \
+	$(SRCDIR)/version.c
 
 AR=ar
 CC=gcc

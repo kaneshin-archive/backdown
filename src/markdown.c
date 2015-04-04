@@ -2558,13 +2558,5 @@ sd_markdown_free(struct sd_markdown *md)
 	free(md);
 }
 
-void
-sd_version(int *ver_major, int *ver_minor, int *ver_revision)
-{
-	*ver_major = SUNDOWN_VER_MAJOR;
-	*ver_minor = SUNDOWN_VER_MINOR;
-	*ver_revision = SUNDOWN_VER_REVISION;
-}
-
 // vim:set ts=4 sts=4 sw=4 noet:
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2011, Vicent Marti
  * Copyright (c) 2015, Shintaro Kaneko
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,11 +21,17 @@
  * THE SOFTWARE.
  */
 
-#ifndef __BD_VERSION_H__
-#define __BD_VERSION_H__
+#include "version.h"
 
-char *bd_version();
+#include <stdlib.h>
+#include <string.h>
 
-#endif
+#define BD_VERSION "1.0.0"
+
+char *
+bd_version()
+{
+	return BD_VERSION;
+}
 
 /* vim:set ts=4 sts=4 sw=4 noet: */
