@@ -62,3 +62,4 @@ const char *BD_HTML_ESCAPES[] = {
 	"&gt;"
 };
 
+// vim:set ts=4 sts=4 sw=4 noet:

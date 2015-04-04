@@ -80,3 +80,4 @@ EXTERN_C_END
 
 #endif
 
+// vim:set ts=4 sts=4 sw=4 noet:

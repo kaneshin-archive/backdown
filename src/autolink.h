@@ -46,3 +46,5 @@ size_t bd_autolink__url(size_t *rewind_p, bd_buf *link,
 EXTERN_C_END
 
 #endif
+
+// vim:set ts=4 sts=4 sw=4 noet:

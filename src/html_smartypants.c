@@ -21,13 +21,14 @@
  * THE SOFTWARE.
  */
 
-#include "buffer.h"
 #include "html.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+
+#include "buffer.h"
 
 #if defined(_WIN32)
 #define snprintf	_snprintf
@@ -393,4 +394,4 @@ sdhtml_smartypants(struct buf *ob, const uint8_t *text, size_t size)
 	}
 }
 
-
+// vim:set ts=4 sts=4 sw=4 noet:

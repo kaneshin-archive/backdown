@@ -204,3 +204,5 @@ find_block_tag (str, len)
     }
   return 0;
 }
+
+// vim:set ts=4 sts=4 sw=4 noet:

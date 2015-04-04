@@ -22,14 +22,14 @@
  * THE SOFTWARE.
  */
 
-#define BUFFER_MAX_ALLOC_SIZE (1024 * 1024 * 16) //16mb
+#include "buffer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
-#include "buffer.h"
+#define BUFFER_MAX_ALLOC_SIZE (1024 * 1024 * 16) //16mb
 
 /* MSVC compat */
 #if defined(_MSC_VER)
@@ -230,3 +230,4 @@ bufslurp(struct buf *buf, size_t len)
 	memmove(buf->data, buf->data + len, buf->size);
 }
 
+// vim:set ts=4 sts=4 sw=4 noet:

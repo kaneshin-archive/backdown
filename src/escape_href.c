@@ -107,3 +107,5 @@ bd_escape_href(bd_buf *ob, const uint8_t *src, size_t size)
 		}
 	}
 }
+
+// vim:set ts=4 sts=4 sw=4 noet:

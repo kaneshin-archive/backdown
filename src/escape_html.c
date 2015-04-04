@@ -61,3 +61,5 @@ bd_escape_html_insecure(bd_buf *ob, const uint8_t *src, size_t size)
 {
 	bd_escape_html(ob, src, size, BD_ESCAPE_INSECURE);
 }
+
+// vim:set ts=4 sts=4 sw=4 noet:

@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-#include <string.h>
-
 #include "stack.h"
+
+#include <string.h>
 
 int
 stack_grow(struct stack *st, size_t new_size)
@@ -103,3 +103,4 @@ stack_top(struct stack *st)
 	return st->item[st->size - 1];
 }
 
+// vim:set ts=4 sts=4 sw=4 noet:

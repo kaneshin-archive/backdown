@@ -99,3 +99,5 @@ void bufprintf(struct buf *, const char *, ...) __attribute__ ((format (printf, 
 EXTERN_C_END
 
 #endif
+
+// vim:set ts=4 sts=4 sw=4 noet:

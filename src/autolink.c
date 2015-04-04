@@ -298,3 +298,4 @@ bd_autolink__url(
 	return link_end;
 }
 
+// vim:set ts=4 sts=4 sw=4 noet:

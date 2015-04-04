@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 
-#include "markdown.h"
 #include "html.h"
 
 #include <string.h>
@@ -30,6 +29,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include "markdown.h"
 #include "escape.h"
 
 #define USE_XHTML(opt) (opt->flags & HTML_USE_XHTML)
@@ -640,3 +640,5 @@ sdhtml_renderer(struct sd_callbacks *callbacks, struct html_renderopt *options, 
 	if (render_flags & HTML_SKIP_HTML || render_flags & HTML_ESCAPE)
 		callbacks->blockhtml = NULL;
 }
+
+// vim:set ts=4 sts=4 sw=4 noet:
