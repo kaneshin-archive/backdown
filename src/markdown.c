@@ -2539,6 +2539,9 @@ sd_markdown_render(struct buf *ob, const uint8_t *document, size_t doc_size, str
 void
 sd_markdown_free(struct sd_markdown *md)
 {
+	if (md == NULL)
+		return;
+
 	size_t i;
 
 	for (i = 0; i < (size_t)md->work_bufs[BUFFER_SPAN].asize; ++i)
