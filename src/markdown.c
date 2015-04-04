@@ -28,6 +28,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "stack.h"
 
@@ -118,7 +119,7 @@ struct sd_markdown {
 
 	struct link_ref *refs[REF_TABLE_SIZE];
 	uint8_t active_char[256];
-	struct stack work_bufs[2];
+	bd_stack work_bufs[2];
 	unsigned int ext_flags;
 	size_t max_nesting;
 	int in_link_body;
@@ -133,7 +134,7 @@ rndr_newbuf(struct sd_markdown *rndr, int type)
 {
 	static const size_t buf_size[2] = {256, 64};
 	struct buf *work = NULL;
-	struct stack *pool = &rndr->work_bufs[type];
+	bd_stack *pool = &rndr->work_bufs[type];
 
 	if (pool->size < pool->asize &&
 		pool->item[pool->size] != NULL) {
@@ -141,7 +142,7 @@ rndr_newbuf(struct sd_markdown *rndr, int type)
 		work->size = 0;
 	} else {
 		work = bufnew(buf_size[type]);
-		stack_push(pool, work);
+		bd_stack_push(pool, work);
 	}
 
 	return work;
@@ -2416,8 +2417,8 @@ sd_markdown_new(
 
 	memcpy(&md->cb, callbacks, sizeof(struct sd_callbacks));
 
-	stack_init(&md->work_bufs[BUFFER_BLOCK], 4);
-	stack_init(&md->work_bufs[BUFFER_SPAN], 8);
+	bd_stack_init(&md->work_bufs[BUFFER_BLOCK], 4);
+	bd_stack_init(&md->work_bufs[BUFFER_SPAN], 8);
 
 	memset(md->active_char, 0x0, 256);
 
@@ -2551,8 +2552,8 @@ sd_markdown_free(struct sd_markdown *md)
 	for (i = 0; i < (size_t)md->work_bufs[BUFFER_BLOCK].asize; ++i)
 		bufrelease(md->work_bufs[BUFFER_BLOCK].item[i]);
 
-	stack_free(&md->work_bufs[BUFFER_SPAN]);
-	stack_free(&md->work_bufs[BUFFER_BLOCK]);
+	bd_stack_reset(&md->work_bufs[BUFFER_SPAN]);
+	bd_stack_reset(&md->work_bufs[BUFFER_BLOCK]);
 
 	free(md);
 }

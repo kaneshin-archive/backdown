@@ -23,19 +23,76 @@
 
 #include "stack.h"
 
+#include <stdlib.h>
 #include <string.h>
 
-int
-stack_grow(struct stack *st, size_t new_size)
+bd_stack *
+bd_stack_new()
+{
+	bd_stack *ret;
+	ret = (bd_stack *)malloc(sizeof(bd_stack));
+
+	if (NULL != ret)
+		bd_stack_init(ret, 0);
+
+	return ret;
+}
+
+bd_stack_status
+bd_stack_init(bd_stack *st, size_t initial_size)
+{
+	if (NULL == st)
+		return BD_STACK_FAILURE;
+
+	st->item = NULL;
+	st->size = 0;
+	st->asize = 0;
+
+	if (!initial_size)
+		initial_size = 8;
+
+	return bd_stack_grow(st, initial_size);
+}
+
+void
+bd_stack_free(bd_stack *st)
+{
+	if (NULL == st)
+		return;
+
+	bd_stack_reset(st);
+
+	free(st);
+	st = NULL;
+}
+
+void
+bd_stack_reset(bd_stack *st)
+{
+	if (NULL == st)
+		return;
+
+	if (NULL != st->item)
+	{
+		free(st->item);
+		st->item = NULL;
+	}
+
+	st->size = 0;
+	st->asize = 0;
+}
+
+bd_stack_status
+bd_stack_grow(bd_stack *st, size_t new_size)
 {
 	void **new_st;
 
 	if (st->asize >= new_size)
-		return 0;
+		return BD_STACK_SUCCESS;
 
 	new_st = realloc(st->item, new_size * sizeof(void *));
-	if (new_st == NULL)
-		return -1;
+	if (NULL == new_st)
+		return BD_STACK_FAILURE;
 
 	memset(new_st + st->asize, 0x0,
 		(new_size - st->asize) * sizeof(void *));
@@ -46,37 +103,21 @@ stack_grow(struct stack *st, size_t new_size)
 	if (st->size > new_size)
 		st->size = new_size;
 
-	return 0;
+	return BD_STACK_SUCCESS;
 }
 
-void
-stack_free(struct stack *st)
+bd_stack_status
+bd_stack_push(bd_stack *st, void *item)
 {
-	if (!st)
-		return;
+	if (BD_STACK_SUCCESS != bd_stack_grow(st, st->size * 2))
+		return BD_STACK_FAILURE;
 
-	free(st->item);
-
-	st->item = NULL;
-	st->size = 0;
-	st->asize = 0;
-}
-
-int
-stack_init(struct stack *st, size_t initial_size)
-{
-	st->item = NULL;
-	st->size = 0;
-	st->asize = 0;
-
-	if (!initial_size)
-		initial_size = 8;
-
-	return stack_grow(st, initial_size);
+	st->item[st->size++] = item;
+	return BD_STACK_SUCCESS;
 }
 
 void *
-stack_pop(struct stack *st)
+bd_stack_pop(bd_stack *st)
 {
 	if (!st->size)
 		return NULL;
@@ -84,18 +125,8 @@ stack_pop(struct stack *st)
 	return st->item[--st->size];
 }
 
-int
-stack_push(struct stack *st, void *item)
-{
-	if (stack_grow(st, st->size * 2) < 0)
-		return -1;
-
-	st->item[st->size++] = item;
-	return 0;
-}
-
 void *
-stack_top(struct stack *st)
+bd_stack_top(bd_stack *st)
 {
 	if (!st->size)
 		return NULL;
@@ -103,4 +134,4 @@ stack_top(struct stack *st)
 	return st->item[st->size - 1];
 }
 
-// vim:set ts=4 sts=4 sw=4 noet:
+/* vim:set ts=4 sts=4 sw=4 noet: */

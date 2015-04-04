@@ -24,29 +24,65 @@
 #ifndef STACK_H__
 #define STACK_H__
 
-#include <stdlib.h>
-
 #include "common.h"
 
 EXTERN_C_BEGIN
+
+typedef enum {
+	BD_STACK_SUCCESS,
+	BD_STACK_FAILURE,
+} bd_stack_status;
 
 struct stack {
 	void **item;
 	size_t size;
 	size_t asize;
 };
+typedef struct stack bd_stack;
 
-void stack_free(struct stack *);
-int stack_grow(struct stack *, size_t);
-int stack_init(struct stack *, size_t);
+/*
+ * Instantiate a new stack.
+ */
+bd_stack *bd_stack_new();
 
-int stack_push(struct stack *, void *);
+/*
+ * Initialize the stack with size.
+ */
+bd_stack_status bd_stack_init(bd_stack *, size_t);
 
-void *stack_pop(struct stack *);
-void *stack_top(struct stack *);
+/*
+ * Release the stack.
+ */
+void bd_stack_free(bd_stack *);
+
+/*
+ * Reset the stack to reuse.
+ */
+void bd_stack_reset(bd_stack *);
+
+/*
+ * Resize the stack with size.
+ */
+bd_stack_status bd_stack_grow(bd_stack *, size_t);
+
+/*
+ * Insert the item at the top of the stack.
+ */
+bd_stack_status bd_stack_push(bd_stack *, void *);
+
+/*
+ * Draw the item from the top of the stack.
+ * The item will be removed.
+ */
+void *bd_stack_pop(bd_stack *);
+
+/*
+ * Return the item from the top of the stack.
+ */
+void *bd_stack_top(bd_stack *);
 
 EXTERN_C_END
 
 #endif
 
-// vim:set ts=4 sts=4 sw=4 noet:
+/* vim:set ts=4 sts=4 sw=4 noet: */

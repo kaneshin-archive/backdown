@@ -24,6 +24,8 @@
 #define COMMON_H__
 
 #include <stdbool.h>
+#include <stddef.h>
+
 
 #if !defined(EXTERN_C_BEGIN)
 # if defined(__cplusplus)
