@@ -32,13 +32,13 @@ EXTERN_C_BEGIN
 #define BD_ESCAPE_FACTOR(x) (((x) * 12) / 10)
 #define BD_UNESCAPE_FACTOR(x) (x)
 
-/**
+/*
  * According to the OWASP rules:
  */
 extern const uint8_t BD_HTML_ESCAPE_TABLE[];
 extern const char *BD_HTML_ESCAPES[];
 
-/**
+/*
  * Escape Mode
  */
 typedef enum {
@@ -62,4 +62,4 @@ EXTERN_C_END
 
 #endif
 
-// vim:set ts=4 sts=4 sw=4 noet:
+/* vim:set ts=4 sts=4 sw=4 noet: */

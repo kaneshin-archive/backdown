@@ -59,7 +59,7 @@ const char *BD_HTML_ESCAPES[] = {
 	"&#39;",
 	"&#47;",
 	"&lt;",
-	"&gt;"
+	"&gt;",
 };
 
-// vim:set ts=4 sts=4 sw=4 noet:
+/* vim:set ts=4 sts=4 sw=4 noet: */
