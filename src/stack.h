@@ -21,8 +21,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef STACK_H__
-#define STACK_H__
+#ifndef __BD_STACK_H__
+#define __BD_STACK_H__
 
 #include "common.h"
 

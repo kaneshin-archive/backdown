@@ -21,8 +21,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef UPSKIRT_HTML_H
-#define UPSKIRT_HTML_H
+#ifndef __BD_HTML_H__
+#define __BD_HTML_H__
 
 #include <stdlib.h>
 

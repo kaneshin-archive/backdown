@@ -20,6 +20,11 @@
  * THE SOFTWARE.
  */
 
+#ifndef __BD_VERSION_H__
+#define __BD_VERSION_H__
+
 #define BACKDOWN_VERSION "1.0.0"
+
+#endif
 
 /* vim:set ts=4 sts=4 sw=4 noet: */

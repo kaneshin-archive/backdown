@@ -21,8 +21,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef UPSKIRT_MARKDOWN_H
-#define UPSKIRT_MARKDOWN_H
+#ifndef __BD_MARKDOWN_H__
+#define __BD_MARKDOWN_H__
 
 #include "common.h"
 #include "buffer.h"

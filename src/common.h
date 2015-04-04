@@ -20,12 +20,11 @@
  * THE SOFTWARE.
  */
 
-#ifndef COMMON_H__
-#define COMMON_H__
+#ifndef __BD_COMMON_H__
+#define __BD_COMMON_H__
 
 #include <stdbool.h>
 #include <stddef.h>
-
 
 #if !defined(EXTERN_C_BEGIN)
 # if defined(__cplusplus)
@@ -39,4 +38,4 @@
 
 #endif
 
-// vim:set ts=4 sts=4 sw=4 noet:
+/* vim:set ts=4 sts=4 sw=4 noet: */
