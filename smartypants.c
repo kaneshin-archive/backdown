@@ -76,4 +76,4 @@ main(int argc, char **argv)
 	return 0;
 }
 
-/* vim: set filetype=c: */
+/* vim:set ts=4 sts=4 sw=4 noet: */
