@@ -30,17 +30,19 @@ dir=$(dirname ${0})
 prjdir="${dir}/.."
 
 backdown="${prjdir}/backdown"
-testsuite=$(find "${dir}"/markdown-testsuite -name "*.md")
+testsuite=$(find "${dir}"/markdown-testsuite/suite -name "*.md")
 ignorelist=()
 case ${OSTYPE} in
   linux* )
     ignorelist+=("EOL-CR+LF.md")
+    ignorelist+=("EOL-LF.md")
     ignorelist+=("EOL-CR.md")
     ignorelist+=("list-code-1-space.md")
     ignorelist+=("ordered-list-inner-par-list.md")
     ;;
   darwin* )
     ignorelist+=("EOL-CR+LF.md")
+    ignorelist+=("EOL-LF.md")
     ignorelist+=("EOL-CR.md")
     ignorelist+=("list-code-1-space.md")
     ignorelist+=("ordered-list-inner-par-list.md")
@@ -103,7 +105,7 @@ do
     continue
   fi
   result=$(${backdown} "${LINE}")
-  expected=$(cat "${LINE%.*}.out")
+  expected=$(cat "${LINE%.*}.html")
   if [[ "${result}" = "${expected}" ]]; then
     success
   else
