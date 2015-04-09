@@ -5,6 +5,7 @@ compiler:
 
 before_install:
   - sudo easy_install cpp-coveralls
+  - git submodule update --init --recursive
 
 script:
   - make -f Makefile.test test && make coverage
