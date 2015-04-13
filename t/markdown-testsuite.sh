@@ -30,10 +30,11 @@ dir=$(dirname ${0})
 prjdir="${dir}/.."
 
 backdown="${prjdir}/backdown"
-testsuite=$(find "${dir}"/markdown-testsuite/suite -name "*.md")
+testsuite=$(find "${dir}"/markdown-testsuite/standard -name "*.md")
 ignorelist=()
 case ${OSTYPE} in
   linux* )
+    ignorelist+=("link-mail-underscores.md")
     ignorelist+=("EOL-CR+LF.md")
     ignorelist+=("EOL-LF.md")
     ignorelist+=("EOL-CR.md")
@@ -41,11 +42,6 @@ case ${OSTYPE} in
     ignorelist+=("ordered-list-inner-par-list.md")
     ;;
   darwin* )
-    ignorelist+=("EOL-CR+LF.md")
-    ignorelist+=("EOL-LF.md")
-    ignorelist+=("EOL-CR.md")
-    ignorelist+=("list-code-1-space.md")
-    ignorelist+=("ordered-list-inner-par-list.md")
     ;;
   windows* )
     ;;
