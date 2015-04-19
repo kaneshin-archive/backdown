@@ -84,7 +84,7 @@ features:
 
 [The MIT License (MIT)](https://github.com/backdown/backdown/blob/master/LICENSE)
 
-## Contributor
+## Maintainer
 
 Shintaro Kaneko <kaneshin0120@gmail.com>
 
