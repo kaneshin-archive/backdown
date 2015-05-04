@@ -1365,7 +1365,7 @@ prefix_oli(uint8_t *data, size_t size)
 	return i;
 }
 
-/* prefix_uli • returns ordered list item prefix */
+/* prefix_uli • returns unordered list item prefix */
 static size_t
 prefix_uli(uint8_t *data, size_t size)
 {
@@ -1438,7 +1438,7 @@ parse_blockquote(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t
 static size_t
 parse_htmlblock(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t size, int do_render);
 
-/* parse_blockquote • handles parsing of a regular paragraph */
+/* parse_paragraph • handles parsing of a regular paragraph */
 static size_t
 parse_paragraph(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t size)
 {
