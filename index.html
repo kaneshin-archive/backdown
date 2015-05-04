@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Backdown by backdown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Backdown</h1>
+      <h2 class="project-tagline">Backdown is a Markdown parser</h2>
+      <a href="https://github.com/backdown/backdown" class="btn">View on GitHub</a>
+      <a href="https://github.com/backdown/backdown/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/backdown/backdown/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="backdown" class="anchor" href="#backdown" aria-hidden="true"><span class="octicon octicon-link"></span></a>Backdown</h1>
+
+<p><a href="https://travis-ci.org/backdown/backdown"><img src="https://travis-ci.org/backdown/backdown.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/backdown/backdown?branch=master"><img src="https://coveralls.io/repos/backdown/backdown/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://gitter.im/backdown/backdown?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/backdown/backdown"></a></p>
+
+<p><code>Backdown</code> is a Markdown parser based on the original code of the
+<a href="https://github.com/vmg/sundown">vmg/sundown</a> by Vicent Marti.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ul>
+<li>Dynamic Library</li>
+<li>Static Library</li>
+<li>Executable Files</li>
+</ul>
+
+<p>Just type <code>make</code>.</p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>
+<p><strong>Fully standards compliant</strong></p>
+
+<p><code>Backdown</code> passes out of the box the official Markdown v1.0.0 and v1.0.3
+test suites, and has been extensively tested with additional corner cases
+to make sure its output is as sane as possible at all times.</p>
+</li>
+<li>
+<p><strong>Massive extension support</strong></p>
+
+<p><code>Backdown</code> has optional support for several (unofficial) Markdown extensions,
+such as non-strict emphasis, fenced code blocks, tables, autolinks,
+strikethrough and more.</p>
+</li>
+<li>
+<p><strong>UTF-8 aware</strong></p>
+
+<p><code>Backdown</code> is fully UTF-8 aware, both when parsing the source document and when
+generating the resulting (X)HTML code.</p>
+</li>
+<li>
+<p><strong>Tested &amp; Ready to be used on production</strong></p>
+
+<p><code>Backdown</code> has been extensively security audited, and includes protection against
+all possible DOS attacks (stack overflows, out of memory situations, malformed
+Markdown syntax...) and against client attacks through malicious embedded HTML.</p>
+
+<p>We've worked very hard to make <code>Backdown</code> never crash or run out of memory
+under <em>any</em> input. <code>Backdown</code> renders all the Markdown content in GitHub and so
+far hasn't crashed a single time.</p>
+</li>
+<li>
+<p><strong>Customizable renderers</strong></p>
+
+<p><code>Backdown</code> is not stuck with XHTML output: the Markdown parser of the library
+is decoupled from the renderer, so it's trivial to extend the library with
+custom renderers. A fully functional (X)HTML renderer is included.</p>
+</li>
+<li>
+<p><strong>Optimized for speed</strong></p>
+
+<p><code>Backdown</code> is written in C, with a special emphasis on performance. When wrapped
+on a dynamic language such as Python or Ruby, it has shown to be up to 40
+times faster than other native alternatives.</p>
+</li>
+<li>
+<p><strong>Zero-dependency</strong></p>
+
+<p><code>Backdown</code> is a zero-dependency library composed of 3 <code>.c</code> files and their headers.
+No dependencies, no bullshit. Only standard C99 that builds everywhere.</p>
+</li>
+</ul>
+
+<h2>
+<a id="help-us" class="anchor" href="#help-us" aria-hidden="true"><span class="octicon octicon-link"></span></a>Help us</h2>
+
+<p><code>Backdown</code> is all about security. If you find a (potential) security vulnerability in the
+library, or a way to make it crash through malicious input, please report it to us,
+either directly via email or by opening an Issue on GitHub, and help make the web safer
+for everybody.</p>
+
+<h2>
+<a id="unicode-character-handling" class="anchor" href="#unicode-character-handling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unicode character handling</h2>
+
+<p>Given that the Markdown spec makes no provision for Unicode character handling, <code>Backdown</code>
+takes a conservative approach towards deciding which extended characters trigger Markdown
+features:</p>
+
+<ul>
+<li><p>Punctuation characters outside of the U+007F codepoint are not handled as punctuation.
+They are considered as normal, in-word characters for word-boundary checks.</p></li>
+<li><p>Whitespace characters outside of the U+007F codepoint are not considered as
+whitespace. They are considered as normal, in-word characters for word-boundary checks.</p></li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="https://github.com/backdown/backdown/blob/master/LICENSE">The MIT License (MIT)</a></p>
+
+<h2>
+<a id="maintainer" class="anchor" href="#maintainer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maintainer</h2>
+
+<p>Shintaro Kaneko <a href="mailto:kaneshin0120@gmail.com">kaneshin0120@gmail.com</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/backdown/backdown">Backdown</a> is maintained by <a href="https://github.com/backdown">backdown</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
