@@ -935,7 +935,7 @@ char_link(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset
 				title_e--;
 
 			/* checking for closing quote presence */
-			if (data[title_e] != '\'' &&  data[title_e] != '"') {
+			if (data[title_e] != '\'' && data[title_e] != '"') {
 				title_b = title_e = 0;
 				link_e = i;
 			}
